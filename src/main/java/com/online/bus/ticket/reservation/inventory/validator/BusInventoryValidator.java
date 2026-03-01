@@ -39,4 +39,11 @@ public class BusInventoryValidator {
             throw new RequiredFieldsMissingException("Invalid - bus inventory Id is null");
         }
     }
+
+    public void validateBusRouteNumber(long busRouteNumber) {
+        if(busRouteNumber<=0) {
+            log.info("[Error]: Invalid - bus route number is null");
+            throw new RequiredFieldsMissingException("Invalid - bus route number is null");
+        }
+    }
 }

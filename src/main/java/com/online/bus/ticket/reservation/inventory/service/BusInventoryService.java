@@ -55,4 +55,12 @@ public class BusInventoryService {
     public List<BusInventory> getBusInventories() {
         return (List<BusInventory>) busInventoryRepository.findAll();
     }
+
+    public BusInventory getBusInventoryByBusRouteNumber(long busRouteNumber) {
+        BusInventory busInventory = busInventoryRepository.findByBusRouteNumber(busRouteNumber).orElse(null);
+        if (Objects.isNull(busInventory)){
+            throw new BusInventoryException("Bus Inventory not present");
+        }
+        return busInventory;
+    }
 }

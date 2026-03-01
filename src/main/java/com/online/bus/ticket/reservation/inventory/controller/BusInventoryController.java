@@ -53,4 +53,11 @@ public class BusInventoryController {
         busInventoryValidator.validateBusInventoryId(busInventoryId);
         busInventoryService.deleteBusInventory(busInventoryId);
     }
+
+    @GetMapping("/busRoute/{busRouteNumber}")
+    public BusInventory getBusInventoryByBusRouteNumber(@PathVariable("busRouteNumber") long busRouteNumber) {
+        log.info("Inside BusInventoryController getBusInventoryByBusRouteNumber Method with busRouteNumber: {}", busRouteNumber);
+        busInventoryValidator.validateBusRouteNumber(busRouteNumber);
+        return busInventoryService.getBusInventoryByBusRouteNumber(busRouteNumber);
+    }
 }
