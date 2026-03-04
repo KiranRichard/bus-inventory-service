@@ -45,11 +45,30 @@ public class BusInventoryService {
         return busInventoryRepository.save(busInventory);
     }
 
+    public BusInventory editBusInventoryByBusRouteNumber(BusInventoryRequest busInventoryRequest, long busRouteNumber) {
+        BusInventory busInventory = busInventoryRepository.findByBusRouteNumber(busRouteNumber).orElse(null);
+        if (Objects.isNull(busInventory)){
+            throw new BusInventoryException("Bus Inventory is not present and unable to update");
+        }
+        busInventory.setBusRouteNumber(busInventoryRequest.getBusRouteNumber());
+        busInventory.setTotalSeats(busInventoryRequest.getTotalSeats());
+        busInventory.setAvailableSeats(busInventoryRequest.getAvailableSeats());
+        return busInventoryRepository.save(busInventory);
+    }
+
     public void deleteBusInventory(long busInventoryId) {
         if (busInventoryRepository.findById(busInventoryId).isEmpty()) {
             throw new BusInventoryException("Bus Inventory is not present and unable to delete");
         }
         busInventoryRepository.deleteById(busInventoryId);
+    }
+
+    public void deleteBusInventoryByBusRouteNumber(long busRouteNumber) {
+        BusInventory busInventory = busInventoryRepository.findByBusRouteNumber(busRouteNumber).orElse(null);
+        if (Objects.isNull(busInventory)) {
+            throw new BusInventoryException("Bus Inventory is not present and unable to delete");
+        }
+        busInventoryRepository.deleteById(busInventory.getBusInventoryId());
     }
 
     public List<BusInventory> getBusInventories() {
