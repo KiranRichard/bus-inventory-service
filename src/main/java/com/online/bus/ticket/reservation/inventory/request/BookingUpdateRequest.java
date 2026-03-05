@@ -3,8 +3,7 @@ package com.online.bus.ticket.reservation.inventory.request;
 import lombok.Data;
 
 @Data
-public class InventoryUpdateRequest {
+public class BookingUpdateRequest {
+
     private long bookingId;
-    private long busRouteNum;
-    private int noOfSeatsBooked;
 }

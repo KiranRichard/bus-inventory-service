@@ -58,9 +58,9 @@ public class ConsumerService {
     @KafkaListener(topics = "payment-topic-update", groupId = "admin-group")
     public void consumeInventoryPaymentupdate(String message) throws JsonProcessingException {
         log.info("Received Message for Bus Route update :{}", message);
-        InventoryUpdateRequest busInventoryRequest =
+        InventoryUpdateRequest inventoryUpdateRequest =
                 objectMapper.readValue(message, InventoryUpdateRequest.class);
-        BusInventory busInventory = busInventoryService.editAvailableSeatsByBusRouteNumber(busInventoryRequest);
+        BusInventory busInventory = busInventoryService.editAvailableSeatsByBusRouteNumber(inventoryUpdateRequest);
         if (Objects.isNull(busInventory)) {
             log.info("[Error] Message unable to process");
         }
