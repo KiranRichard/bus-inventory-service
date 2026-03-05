@@ -31,6 +31,11 @@ public class BusInventoryValidator {
             log.info("[Error]: Invalid available seats is null in bus inventory passenger request");
             throw new RequiredFieldsMissingException("Invalid available seats is null in bus inventory passenger request");
         }
+
+        if(busInventoryRequest.getPrice()<=0) {
+            log.info("[Error]: Invalid price is null in bus inventory passenger request");
+            throw new RequiredFieldsMissingException("Invalid price is null in bus inventory passenger request");
+        }
     }
 
     public void validateBusInventoryId(long busInventoryId) {

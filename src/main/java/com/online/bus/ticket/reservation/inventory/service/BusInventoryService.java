@@ -23,6 +23,7 @@ public class BusInventoryService {
         busInventory.setBusRouteNumber(busInventoryRequest.getBusRouteNumber());
         busInventory.setTotalSeats(busInventoryRequest.getTotalSeats());
         busInventory.setAvailableSeats(busInventoryRequest.getAvailableSeats());
+        busInventory.setPrice(busInventoryRequest.getPrice());
         return busInventoryRepository.save(busInventory);
     }
 
@@ -42,6 +43,7 @@ public class BusInventoryService {
         busInventory.setBusRouteNumber(busInventoryRequest.getBusRouteNumber());
         busInventory.setTotalSeats(busInventoryRequest.getTotalSeats());
         busInventory.setAvailableSeats(busInventoryRequest.getAvailableSeats());
+        busInventory.setPrice(busInventoryRequest.getPrice());
         return busInventoryRepository.save(busInventory);
     }
 
@@ -53,6 +55,7 @@ public class BusInventoryService {
         busInventory.setBusRouteNumber(busInventoryRequest.getBusRouteNumber());
         busInventory.setTotalSeats(busInventoryRequest.getTotalSeats());
         busInventory.setAvailableSeats(busInventoryRequest.getAvailableSeats());
+        busInventory.setPrice(busInventoryRequest.getPrice());
         return busInventoryRepository.save(busInventory);
     }
 
