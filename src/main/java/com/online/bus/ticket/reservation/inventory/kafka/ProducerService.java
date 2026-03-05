@@ -13,6 +13,6 @@ public class ProducerService {
     private KafkaTemplate<String, String> kafkaTemplate;
 
     public void sendMessage(String message) {
-        kafkaTemplate.send("test-topic", message);
+        kafkaTemplate.send("inventory-topic", message);
     }
 }
