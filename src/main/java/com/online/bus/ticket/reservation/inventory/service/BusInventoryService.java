@@ -4,6 +4,7 @@ import com.online.bus.ticket.reservation.inventory.exception.BusInventoryExcepti
 import com.online.bus.ticket.reservation.inventory.model.BusInventory;
 import com.online.bus.ticket.reservation.inventory.repository.BusInventoryRepository;
 import com.online.bus.ticket.reservation.inventory.request.BusInventoryRequest;
+import com.online.bus.ticket.reservation.inventory.request.InventoryUpdateRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -84,5 +85,15 @@ public class BusInventoryService {
             throw new BusInventoryException("Bus Inventory not present");
         }
         return busInventory;
+    }
+
+    public BusInventory editAvailableSeatsByBusRouteNumber(InventoryUpdateRequest inventoryUpdateRequest) {
+        BusInventory busInventory = busInventoryRepository.findByBusRouteNumber(inventoryUpdateRequest.getBusRouteNum()).orElse(null);
+        if (Objects.isNull(busInventory)){
+            throw new BusInventoryException("Bus Inventory is not present and unable to update");
+        }
+
+        busInventory.setAvailableSeats(busInventory.getAvailableSeats() - inventoryUpdateRequest.getNoOfSeatsBooked());
+        return busInventoryRepository.save(busInventory);
     }
 }
