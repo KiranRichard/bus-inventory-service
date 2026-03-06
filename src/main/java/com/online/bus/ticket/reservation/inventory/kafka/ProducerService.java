@@ -15,4 +15,8 @@ public class ProducerService {
     public void sendMessage(String message) {
         kafkaTemplate.send("inventory-topic-update", message);
     }
+
+    public void sendCancelMessage(String message) {
+        kafkaTemplate.send("inventory-topic-delete", message);
+    }
 }

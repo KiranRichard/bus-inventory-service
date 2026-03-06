@@ -96,6 +96,22 @@ public class BusInventoryService {
         return busInventory;
     }
 
+    /*public BusInventory editAvailableSeatsByBusRouteNumber(InventoryUpdateRequest inventoryUpdateRequest, boolean isCancellation) throws JsonProcessingException {
+        if (isCancellation) {
+            busInventory.setAvailableSeats(busInventory.getAvailableSeats() + inventoryUpdateRequest.getNoOfSeatsBooked());
+        }
+        busInventory.setAvailableSeats(busInventory.getAvailableSeats() + inventoryUpdateRequest.getNoOfSeatsBooked());
+        BusInventory savedBusInventory = busInventoryRepository.save(busInventory);
+
+        BookingUpdateRequest bookingUpdateRequest = new BookingUpdateRequest();
+        bookingUpdateRequest.setBookingId(inventoryUpdateRequest.getBookingId());
+        String jsonMessage = objectMapper.writeValueAsString(bookingUpdateRequest);
+        if (isCancellation) {
+            producerService.sendCancelMessage(jsonMessage);
+        }
+        return savedBusInventory;
+    }*/
+
     public BusInventory editAvailableSeatsByBusRouteNumber(InventoryUpdateRequest inventoryUpdateRequest) throws JsonProcessingException {
         BusInventory busInventory = busInventoryRepository.findByBusRouteNumber(inventoryUpdateRequest.getBusRouteNum()).orElse(null);
         if (Objects.isNull(busInventory)){
@@ -109,6 +125,22 @@ public class BusInventoryService {
         bookingUpdateRequest.setBookingId(inventoryUpdateRequest.getBookingId());
         String jsonMessage = objectMapper.writeValueAsString(bookingUpdateRequest);
         producerService.sendMessage(jsonMessage);
+        return savedBusInventory;
+    }
+
+    public BusInventory cancelAvailableSeatsByBusRouteNumber(InventoryUpdateRequest inventoryUpdateRequest) throws JsonProcessingException {
+        BusInventory busInventory = busInventoryRepository.findByBusRouteNumber(inventoryUpdateRequest.getBusRouteNum()).orElse(null);
+        if (Objects.isNull(busInventory)){
+            throw new BusInventoryException("Bus Inventory is not present and unable to update");
+        }
+
+        busInventory.setAvailableSeats(busInventory.getAvailableSeats() + inventoryUpdateRequest.getNoOfSeatsBooked());
+        BusInventory savedBusInventory = busInventoryRepository.save(busInventory);
+
+        BookingUpdateRequest bookingUpdateRequest = new BookingUpdateRequest();
+        bookingUpdateRequest.setBookingId(inventoryUpdateRequest.getBookingId());
+        String jsonMessage = objectMapper.writeValueAsString(bookingUpdateRequest);
+        producerService.sendCancelMessage(jsonMessage);
         return savedBusInventory;
     }
 }
