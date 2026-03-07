@@ -9,7 +9,6 @@ import com.online.bus.ticket.reservation.inventory.repository.BusInventoryReposi
 import com.online.bus.ticket.reservation.inventory.request.BookingUpdateRequest;
 import com.online.bus.ticket.reservation.inventory.request.BusInventoryRequest;
 import com.online.bus.ticket.reservation.inventory.request.InventoryUpdateRequest;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -95,22 +94,6 @@ public class BusInventoryService {
         }
         return busInventory;
     }
-
-    /*public BusInventory editAvailableSeatsByBusRouteNumber(InventoryUpdateRequest inventoryUpdateRequest, boolean isCancellation) throws JsonProcessingException {
-        if (isCancellation) {
-            busInventory.setAvailableSeats(busInventory.getAvailableSeats() + inventoryUpdateRequest.getNoOfSeatsBooked());
-        }
-        busInventory.setAvailableSeats(busInventory.getAvailableSeats() + inventoryUpdateRequest.getNoOfSeatsBooked());
-        BusInventory savedBusInventory = busInventoryRepository.save(busInventory);
-
-        BookingUpdateRequest bookingUpdateRequest = new BookingUpdateRequest();
-        bookingUpdateRequest.setBookingId(inventoryUpdateRequest.getBookingId());
-        String jsonMessage = objectMapper.writeValueAsString(bookingUpdateRequest);
-        if (isCancellation) {
-            producerService.sendCancelMessage(jsonMessage);
-        }
-        return savedBusInventory;
-    }*/
 
     public BusInventory editAvailableSeatsByBusRouteNumber(InventoryUpdateRequest inventoryUpdateRequest) throws JsonProcessingException {
         BusInventory busInventory = busInventoryRepository.findByBusRouteNumber(inventoryUpdateRequest.getBusRouteNum()).orElse(null);

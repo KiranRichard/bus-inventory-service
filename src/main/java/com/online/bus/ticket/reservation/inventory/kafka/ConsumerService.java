@@ -24,58 +24,58 @@ public class ConsumerService {
 
     @KafkaListener(topics = "admin-topic-insert", groupId = "admin-group")
     public void consumeBusRouteInsert(String message) throws JsonProcessingException {
-        log.info("Received Message for Bus Route insert:{}", message);
+        log.info("In ConsumerService consumeBusRouteInsert method, Received Message for Bus Route insert:{}", message);
         BusInventoryRequest busInventoryRequest =
                 objectMapper.readValue(message, BusInventoryRequest.class);
         BusInventory busInventory = busInventoryService.createBusInventory(busInventoryRequest);
         if (Objects.isNull(busInventory)) {
-            log.info("[Error] Message unable to process");
+            log.info("[Error] Message for Bus Route insert is Null");
         }
-        log.info("The message received: {} has been processed sucessfully.", message);
+        log.info("The message: {} has been processed and created sucessfully.", message);
     }
 
     @KafkaListener(topics = "admin-topic-update", groupId = "admin-group")
     public void consumeBusRouteUpdate(String message) throws JsonProcessingException {
-        log.info("Received Message for Bus Route update :{}", message);
+        log.info("In ConsumerService consumeBusRouteUpdate method, Received Message for Bus Route update :{}", message);
         BusInventoryRequest busInventoryRequest =
                 objectMapper.readValue(message, BusInventoryRequest.class);
         BusInventory busInventory = busInventoryService.editBusInventoryByBusRouteNumber(busInventoryRequest, busInventoryRequest.getBusRouteNumber());
         if (Objects.isNull(busInventory)) {
-            log.info("[Error] Message unable to process");
+            log.info("[Error] Message for Bus Route update is Null");
         }
-        log.info("The message received: {} has been processed sucessfully.", message);
+        log.info("The message: {} has been processed and updated sucessfully.", message);
     }
 
     @KafkaListener(topics = "admin-topic-delete", groupId = "admin-group")
     public void consumeBusRouteDelete(String message) throws JsonProcessingException {
-        log.info("Received Message for Bus Route delete :{}", message);
+        log.info("In ConsumerService consumeBusRouteDelete method, Received Message for Bus Route delete :{}", message);
         BusInventoryRequest busInventoryRequest =
                 objectMapper.readValue(message, BusInventoryRequest.class);
         busInventoryService.deleteBusInventoryByBusRouteNumber(busInventoryRequest.getBusRouteNumber());
-        log.info("The message received: {} has been processed sucessfully. Please validate the database for more details", message);
+        log.info("The message: {} has been processed and deleted sucessfully. Please validate the database for more details", message);
     }
 
     @KafkaListener(topics = "payment-topic-update", groupId = "admin-group")
     public void consumeInventoryPaymentupdate(String message) throws JsonProcessingException {
-        log.info("Received Message for Bus Route update :{}", message);
+        log.info("In ConsumerService consumeInventoryPaymentupdate method, Received Message for Bus Route update :{}", message);
         InventoryUpdateRequest inventoryUpdateRequest =
                 objectMapper.readValue(message, InventoryUpdateRequest.class);
         BusInventory busInventory = busInventoryService.editAvailableSeatsByBusRouteNumber(inventoryUpdateRequest);
         if (Objects.isNull(busInventory)) {
-            log.info("[Error] Message unable to process");
+            log.info("[Error] Message received through payment service for Bus Route update is Null");
         }
-        log.info("The message received: {} has been processed sucessfully.", message);
+        log.info("The message: {} has been processed sucessfully.", message);
     }
 
     @KafkaListener(topics = "payment-topic-delete", groupId = "admin-group")
     public void consumeInventoryCancelPayment(String message) throws JsonProcessingException {
-        log.info("Received Message for Bus Route update :{}", message);
+        log.info("In ConsumerService consumeInventoryCancelPayment method, Received Message for Bus Route update :{}", message);
         InventoryUpdateRequest inventoryUpdateRequest =
                 objectMapper.readValue(message, InventoryUpdateRequest.class);
         BusInventory busInventory = busInventoryService.cancelAvailableSeatsByBusRouteNumber(inventoryUpdateRequest);
         if (Objects.isNull(busInventory)) {
             log.info("[Error] Message unable to process");
         }
-        log.info("The message received: {} has been processed sucessfully.", message);
+        log.info("The message: {} has been processed and cancelled sucessfully.", message);
     }
 }
